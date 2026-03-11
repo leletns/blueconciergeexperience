@@ -10,6 +10,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -29,8 +30,6 @@
         .glass-card { background: #FFFFFF; border: 1px solid #E2E8F0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); border-radius: 8px; }
         .input-blue { width: 100%; padding: 0.75rem 1rem; border: 1px solid #CBD5E1; border-radius: 6px; outline: none; transition: all 0.3s; font-size: 0.875rem; }
         .input-blue:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-        
-        /* Classes para animação de transição suave das abas */
         .fade-in { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -44,7 +43,7 @@
         <nav class="flex-1 px-4 py-8 space-y-2" id="sidebar-menu">
             <button onclick="changeTab('concierge', this)" class="w-full flex items-center px-4 py-3 bg-brand-blue/20 text-brand-light rounded-md transition-colors tab-btn active-tab">
                 <i class="fas fa-paper-plane w-5 text-brand-blue icon-color"></i>
-                <span class="text-xs font-medium uppercase tracking-wider">Concierge Automático</span>
+                <span class="text-xs font-medium uppercase tracking-wider">Concierge automático</span>
             </button>
             <button onclick="changeTab('google', this)" class="w-full flex items-center px-4 py-3 text-brand-slate hover:text-white hover:bg-white/5 rounded-md transition-colors tab-btn">
                 <i class="fas fa-star w-5 icon-color"></i>
@@ -52,7 +51,7 @@
             </button>
             <button onclick="changeTab('qualidade', this)" class="w-full flex items-center px-4 py-3 text-brand-slate hover:text-white hover:bg-white/5 rounded-md transition-colors tab-btn">
                 <i class="fas fa-shield-alt w-5 icon-color"></i>
-                <span class="text-xs font-medium uppercase tracking-wider">Gestão de Qualidade</span>
+                <span class="text-xs font-medium uppercase tracking-wider">Gestão de qualidade</span>
             </button>
         </nav>
         <div class="p-4 border-t border-white/10">
@@ -60,7 +59,7 @@
                 <div class="w-8 h-8 rounded-full bg-brand-blue flex items-center justify-center text-xs font-bold mr-3">HE</div>
                 <div>
                     <p class="text-[10px] font-medium uppercase tracking-wider">Helen Félix</p>
-                    <p class="text-[8px] text-brand-slate uppercase tracking-widest">Operações Clínicas</p>
+                    <p class="text-[8px] text-brand-slate uppercase tracking-widest">Operações clínicas</p>
                 </div>
             </div>
         </div>
@@ -69,10 +68,10 @@
     <main class="flex-1 flex flex-col h-screen overflow-y-auto">
         
         <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-10 shrink-0">
-            <h1 id="header-title" class="text-lg font-medium text-brand-navy tracking-wide">Módulo de Pós-Atendimento</h1>
+            <h1 id="header-title" class="text-lg font-medium text-brand-navy tracking-wide">Módulo de pós-atendimento</h1>
             <div class="flex items-center space-x-4">
                 <span class="px-3 py-1 bg-green-50 text-green-600 border border-green-200 rounded-full text-[9px] uppercase tracking-widest font-medium flex items-center">
-                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-2 animate-pulse"></span> Sistema Ativo
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-2 animate-pulse"></span> Sistema ativo
                 </span>
             </div>
         </header>
@@ -83,13 +82,13 @@
                 <div class="glass-card p-8 relative overflow-hidden mt-4">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-brand-gray rounded-bl-full -z-10 opacity-50"></div>
                     
-                    <h2 class="text-xl font-medium text-brand-navy mb-2">Agendar Pesquisa de Excelência</h2>
-                    <p class="text-xs text-brand-slate mb-8">Insira os dados da paciente. O sistema enviará a mensagem humanizada automaticamente no horário programado.</p>
+                    <h2 class="text-xl font-medium text-brand-navy mb-2">Agendar pesquisa</h2>
+                    <p class="text-xs text-brand-slate mb-8">Insira os dados da paciente. O sistema enviará a mensagem automaticamente no horário programado.</p>
 
                     <form id="agendamentoForm" class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">Nome da Paciente</label>
+                                <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">Nome da paciente</label>
                                 <input type="text" id="nome" required class="input-blue" placeholder="Ex: Mariana Silva">
                             </div>
                             <div>
@@ -97,19 +96,19 @@
                                 <input type="text" id="telefone" required class="input-blue" placeholder="Ex: 5521999999999">
                             </div>
                             <div>
-                                <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">Data do Disparo</label>
+                                <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">Data do disparo</label>
                                 <input type="date" id="data" required class="input-blue">
                             </div>
                             <div>
-                                <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">Horário do Disparo</label>
+                                <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">Horário do disparo</label>
                                 <input type="time" id="hora" required class="input-blue">
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-8">
-                            <p id="statusMessage" class="text-xs font-medium text-green-600 opacity-0 transition-opacity">✅ Agendamento enviado com sucesso!</p>
+                            <p id="statusMessage" class="text-xs font-medium text-green-600 opacity-0 transition-opacity">✅ Agendamento registrado com sucesso.</p>
                             <button type="submit" id="btnSubmit" class="bg-brand-navy text-white px-8 py-3 text-[10px] font-medium uppercase tracking-widest rounded hover:bg-brand-blue transition-colors flex items-center shadow-lg shadow-brand-navy/20">
-                                <i class="fas fa-paper-plane mr-2"></i> Programar Disparo
+                                <i class="fas fa-paper-plane mr-2"></i> Programar disparo
                             </button>
                         </div>
                     </form>
@@ -119,66 +118,62 @@
             <div id="tab-google" class="tab-content hidden fade-in">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 mt-4">
                     <div class="glass-card p-6 border-l-4 border-l-brand-blue">
-                        <p class="text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-1">Total de 5 Estrelas</p>
-                        <h3 class="text-3xl font-light text-brand-navy">124 <span class="text-sm text-green-500 font-medium ml-2"><i class="fas fa-arrow-up"></i> 12%</span></h3>
+                        <p class="text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-1">Base consolidada (5 Estrelas)</p>
+                        <h3 class="text-3xl font-light text-brand-navy" id="metrica-total">23 <span class="text-sm text-green-500 font-medium ml-2"><i class="fas fa-arrow-up"></i></span></h3>
                     </div>
                     <div class="glass-card p-6 border-l-4 border-l-brand-navy">
-                        <p class="text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-1">Link Dr. Rafael</p>
-                        <h3 class="text-3xl font-light text-brand-navy">61 <span class="text-sm text-brand-slate font-light ml-2">avaliações</span></h3>
+                        <p class="text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-1">Dr. Rafael Erthal</p>
+                        <h3 class="text-3xl font-light text-brand-navy" id="metrica-rafael">13 <span class="text-sm text-brand-slate font-light ml-2">avaliações</span></h3>
+                        <p class="text-xs font-medium text-yellow-500 mt-1"><i class="fas fa-star"></i> 5,0</p>
                     </div>
                     <div class="glass-card p-6 border-l-4 border-l-gray-300">
-                        <p class="text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-1">Link Blue Clínica</p>
-                        <h3 class="text-3xl font-light text-brand-navy">63 <span class="text-sm text-brand-slate font-light ml-2">avaliações</span></h3>
+                        <p class="text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-1">Blue Clínica</p>
+                        <h3 class="text-3xl font-light text-brand-navy" id="metrica-blue">10 <span class="text-sm text-brand-slate font-light ml-2">avaliações</span></h3>
+                        <p class="text-xs font-medium text-yellow-500 mt-1"><i class="fas fa-star"></i> 4,6</p>
                     </div>
                 </div>
                 
                 <div class="glass-card p-8">
-                    <h2 class="text-lg font-medium text-brand-navy mb-6"><i class="fas fa-chart-line mr-2 text-brand-blue"></i> Desempenho do Algoritmo A/B</h2>
+                    <h2 class="text-lg font-medium text-brand-navy mb-6"><i class="fas fa-chart-line mr-2 text-brand-blue"></i> Roteamento do algoritmo (A/B)</h2>
                     <div class="w-full bg-slate-100 rounded-full h-4 mb-2 flex overflow-hidden">
-                        <div class="bg-brand-navy h-4" style="width: 49%"></div>
-                        <div class="bg-brand-blue h-4" style="width: 51%"></div>
+                        <div class="bg-brand-navy h-4" style="width: 50%"></div>
+                        <div class="bg-brand-blue h-4" style="width: 50%"></div>
                     </div>
                     <div class="flex justify-between text-[10px] font-medium uppercase tracking-widest text-brand-slate">
-                        <span>49% Dr. Rafael</span>
-                        <span>51% Blue Clínica</span>
+                        <span>50% Dr. Rafael</span>
+                        <span>50% Blue Clínica</span>
                     </div>
-                    <p class="text-xs text-brand-slate mt-6 font-light">O sistema de inteligência artificial está distribuindo os cliques perfeitamente entre os dois mapas, blindando as duas entidades no topo das buscas da Barra da Tijuca.</p>
+                    <p class="text-xs text-brand-slate mt-6 font-light">O sistema distribui os links automaticamente entre os dois mapas, nivelando o crescimento das avaliações na Barra da Tijuca.</p>
                 </div>
             </div>
 
             <div id="tab-qualidade" class="tab-content hidden fade-in">
-                <div class="glass-card overflow-hidden mt-4">
+                <div class="flex justify-end mb-4">
+                    <button onclick="exportarPDF()" class="bg-white border border-slate-200 text-brand-navy px-4 py-2 text-[10px] font-medium uppercase tracking-widest rounded hover:bg-slate-50 transition-colors flex items-center shadow-sm">
+                        <i class="fas fa-download mr-2"></i> Exportar relatório (PDF)
+                    </button>
+                </div>
+
+                <div class="glass-card overflow-hidden" id="area-relatorio">
                     <div class="p-6 border-b border-slate-100 flex justify-between items-center">
                         <div>
-                            <h2 class="text-lg font-medium text-brand-navy">Monitoramento de Crise</h2>
-                            <p class="text-xs text-brand-slate font-light mt-1">Pacientes retidas pelo sistema antes de publicarem no Google.</p>
+                            <h2 class="text-lg font-medium text-brand-navy">Monitoramento de retornos</h2>
+                            <p class="text-xs text-brand-slate font-light mt-1">Histórico de pacientes contatadas pelo sistema.</p>
                         </div>
-                        <span class="px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-bold tracking-widest uppercase">Blindagem Ativa</span>
+                        <span class="px-3 py-1 bg-brand-gray text-brand-navy rounded-full text-[10px] font-bold tracking-widest uppercase">Registro atual</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-50 text-[9px] uppercase tracking-widest text-brand-slate font-medium">
                                     <th class="p-4 border-b border-slate-200">Paciente</th>
-                                    <th class="p-4 border-b border-slate-200">Data do Disparo</th>
-                                    <th class="p-4 border-b border-slate-200">Nota Filtrada</th>
-                                    <th class="p-4 border-b border-slate-200">Ação Tomada</th>
+                                    <th class="p-4 border-b border-slate-200">Data do disparo</th>
+                                    <th class="p-4 border-b border-slate-200">Nota registrada</th>
+                                    <th class="p-4 border-b border-slate-200">Status</th>
                                 </tr>
                             </thead>
-                            <tbody class="text-sm font-light text-brand-navy">
-                                <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                                    <td class="p-4 font-medium">Camila Rocha</td>
-                                    <td class="p-4 text-brand-slate">Hoje, 09:30</td>
-                                    <td class="p-4"><span class="px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs font-bold">Nota 3</span></td>
-                                    <td class="p-4"><span class="text-green-600 text-xs font-medium"><i class="fas fa-check-circle mr-1"></i> Acolhida no WhatsApp</span></td>
-                                </tr>
-                                <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                                    <td class="p-4 font-medium">Juliana Martins</td>
-                                    <td class="p-4 text-brand-slate">09/03/2026</td>
-                                    <td class="p-4"><span class="px-2 py-1 bg-red-100 text-red-700 rounded text-xs font-bold">Nota 2</span></td>
-                                    <td class="p-4"><span class="text-green-600 text-xs font-medium"><i class="fas fa-check-circle mr-1"></i> Retorno Clínico Feito</span></td>
-                                </tr>
-                            </tbody>
+                            <tbody class="text-sm font-light text-brand-navy" id="tabela-pacientes">
+                                </tbody>
                         </table>
                     </div>
                 </div>
@@ -188,43 +183,108 @@
     </main>
 
     <script>
-        // LÓGICA DE NAVEGAÇÃO SPA (Single Page Application)
+        // NAVEGAÇÃO SPA
         function changeTab(tabId, btnElement) {
-            // 1. Esconde todos os conteúdos
             const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => {
-                content.classList.add('hidden');
-            });
+            contents.forEach(content => content.classList.add('hidden'));
 
-            // 2. Remove o estilo de "ativo" de todos os botões
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => {
                 btn.classList.remove('bg-brand-blue/20', 'text-brand-light');
                 btn.classList.add('text-brand-slate', 'hover:text-white', 'hover:bg-white/5');
-                // Remove a cor azul do ícone
                 btn.querySelector('.icon-color').classList.remove('text-brand-blue');
             });
 
-            // 3. Mostra o conteúdo da aba selecionada
             document.getElementById('tab-' + tabId).classList.remove('hidden');
 
-            // 4. Adiciona o estilo de "ativo" no botão clicado
             btnElement.classList.remove('text-brand-slate', 'hover:text-white', 'hover:bg-white/5');
             btnElement.classList.add('bg-brand-blue/20', 'text-brand-light');
             btnElement.querySelector('.icon-color').classList.add('text-brand-blue');
 
-            // 5. Muda o título do Header dinamicamente
             const titles = {
-                'concierge': 'Módulo de Pós-Atendimento',
-                'google': 'Inteligência de Reputação (Google)',
-                'qualidade': 'Contenção de Crises'
+                'concierge': 'Módulo de pós-atendimento',
+                'google': 'Painel Google',
+                'qualidade': 'Gestão de qualidade'
             };
             document.getElementById('header-title').innerText = titles[tabId];
+            
+            if(tabId === 'qualidade') renderizarTabela();
+            if(tabId === 'google') atualizarMetricas();
         }
 
-        // ==========================================
-        // LÓGICA DE AGENDAMENTO (CONCIERGE)
-        // ==========================================
+        // BANCO DE DADOS TEMPORÁRIO (LOCAL STORAGE)
+        function getPacientes() {
+            return JSON.parse(localStorage.getItem('blue_pacientes')) || [];
+        }
+
+        function salvarPaciente(nome, data, hora) {
+            const pacientes = getPacientes();
+            const dataFormatada = data.split('-').reverse().join('/');
+            pacientes.unshift({ 
+                nome: nome, 
+                dataDisparo: `${dataFormatada} às ${hora}`,
+                nota: 'Aguardando',
+                status: 'Programado'
+            });
+            localStorage.setItem('blue_pacientes', JSON.stringify(pacientes));
+            renderizarTabela();
+            atualizarMetricas();
+        }
+
+        function renderizarTabela() {
+            const tbody = document.getElementById('tabela-pacientes');
+            if(!tbody) return;
+            
+            const pacientes = getPacientes();
+            let html = '';
+            
+            pacientes.forEach(p => {
+                html += `
+                <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                    <td class="p-4 font-medium">${p.nome}</td>
+                    <td class="p-4 text-brand-slate">${p.dataDisparo}</td>
+                    <td class="p-4"><span class="px-2 py-1 bg-slate-100 text-slate-500 rounded text-xs font-bold">${p.nota}</span></td>
+                    <td class="p-4"><span class="text-brand-blue text-xs font-medium"><i class="fas fa-clock mr-1"></i> ${p.status}</span></td>
+                </tr>`;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function atualizarMetricas() {
+            // Base real do dia 10/03/2026
+            const baseRafael = 13;
+            const baseBlue = 10;
+            const baseTotal = baseRafael + baseBlue;
+
+            // Simula o crescimento baseado no uso do sistema
+            const totalAgendados = getPacientes().length;
+            // Estima que 50% dos agendados avaliaram positivamente para a demo
+            const novasAvaliacoes = Math.floor(totalAgendados / 2); 
+
+            const metricaTotal = document.getElementById('metrica-total');
+            const metricaRafael = document.getElementById('metrica-rafael');
+            const metricaBlue = document.getElementById('metrica-blue');
+
+            if(metricaTotal) metricaTotal.innerHTML = (baseTotal + novasAvaliacoes) + ' <span class="text-sm text-green-500 font-medium ml-2"><i class="fas fa-arrow-up"></i></span>';
+            if(metricaRafael) metricaRafael.innerHTML = (baseRafael + Math.ceil(novasAvaliacoes/2)) + ' <span class="text-sm text-brand-slate font-light ml-2">avaliações</span>';
+            if(metricaBlue) metricaBlue.innerHTML = (baseBlue + Math.floor(novasAvaliacoes/2)) + ' <span class="text-sm text-brand-slate font-light ml-2">avaliações</span>';
+        }
+
+        // EXPORTAR PDF
+        function exportarPDF() {
+            const elemento = document.getElementById('area-relatorio');
+            const opt = {
+                margin:       10,
+                filename:     'relatorio-mensal-blue.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+            };
+            html2pdf().set(opt).from(elemento).save();
+        }
+
+        // AGENDAMENTO
         const amanha = new Date();
         amanha.setDate(amanha.getDate() + 1);
         document.getElementById('data').valueAsDate = amanha;
@@ -235,68 +295,44 @@
             
             const btn = document.getElementById('btnSubmit');
             const status = document.getElementById('statusMessage');
-            
-            const payloadDados = {
-                nome: document.getElementById('nome').value,
-                telefone: document.getElementById('telefone').value,
-                data: document.getElementById('data').value,
-                hora: document.getElementById('hora').value
-            };
+            const nomeInput = document.getElementById('nome').value;
+            const dataInput = document.getElementById('data').value;
+            const horaInput = document.getElementById('hora').value;
 
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Processando...';
             btn.classList.add('opacity-80', 'cursor-not-allowed');
             btn.disabled = true;
 
             // =========================================================
-            // COLE A SUA URL DO RENDER ABAIXO
+            // COLE A URL DO RENDER ABAIXO PARA INTEGRAR COM O BACKEND
+            // Exemplo: fetch('https://api-blue-clinica.onrender.com/agendar', { ...
             // =========================================================
-            const URL_DO_RENDER = 'https://api-blue-clinica.onrender.com/agendar';
+            // fetch('https://api-blue-clinica.onrender.com', { method: 'POST', body: JSON.stringify({...}) });
+            
+            setTimeout(() => {
+                salvarPaciente(nomeInput, dataInput, horaInput);
 
-            fetch(URL_DO_RENDER, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify(payloadDados)
-            })
-            .then(response => {
-                if (!response.ok) { throw new Error('Falha na comunicação'); }
-                return response.json();
-            })
-            .then(data => {
                 btn.innerHTML = '<i class="fas fa-check mr-2"></i> Agendado';
                 btn.classList.replace('bg-brand-navy', 'bg-green-600');
-                status.textContent = "✅ Agendamento enviado com sucesso!";
                 status.classList.remove('opacity-0');
-                status.classList.replace('text-red-600', 'text-green-600');
                 
                 document.getElementById('nome').value = '';
                 document.getElementById('telefone').value = '';
                 
                 setTimeout(() => {
-                    btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Programar Disparo';
+                    btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Programar disparo';
                     btn.classList.replace('bg-green-600', 'bg-brand-navy');
                     btn.classList.remove('opacity-80', 'cursor-not-allowed');
                     btn.disabled = false;
                     status.classList.add('opacity-0');
                 }, 3000);
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                // Caso o render esteja desligado, simula o sucesso apenas para demonstração visual
-                // ATENÇÃO: Apague as 4 linhas abaixo quando o Render estiver online.
-                btn.innerHTML = '<i class="fas fa-check mr-2"></i> Agendado (Modo Demo)';
-                btn.classList.replace('bg-brand-navy', 'bg-green-600');
-                status.textContent = "✅ Simulação enviada com sucesso!";
-                status.classList.remove('opacity-0');
-                
-                setTimeout(() => {
-                    btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Programar Disparo';
-                    btn.classList.remove('bg-green-600', 'bg-red-600');
-                    btn.classList.add('bg-brand-navy');
-                    btn.classList.remove('opacity-80', 'cursor-not-allowed');
-                    btn.disabled = false;
-                    status.classList.add('opacity-0');
-                }, 4000);
-            });
+            }, 800);
+        });
+
+        // Inicializa a tabela e métricas ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            renderizarTabela();
+            atualizarMetricas();
         });
     </script>
 </body>
