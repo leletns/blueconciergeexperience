@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Clínica | Concierge VIP</title>
+    
+    <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 100 120' fill='%230A192F' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 115 L32 105 H68 L70 115 Z'/%3E%3Cpath d='M35 105 L37 95 H63 L65 105 Z'/%3E%3Cpath d='M40 95 L43 45 H57 L60 95 Z'/%3E%3Cpath d='M45 45 L43 95 M50 45 L50 95 M55 45 L57 95' stroke='%23ffffff' stroke-width='1.5' fill='none'/%3E%3Cpath d='M43 45 C 25 45 8 48 4 50 L 5 53 C 15 50 30 48 43 48 Z'/%3E%3Cpath d='M57 45 C 75 45 92 48 96 50 L 95 53 C 85 50 70 48 57 48 Z'/%3E%3Cpath d='M46 45 V36 C 46 28 54 28 54 36 V45 Z'/%3E%3C/svg%3E" type="image/svg+xml">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        brand: { navy: '#0A192F', blue: '#2563EB', light: '#F8FAFC', gray: '#F1F5F9', slate: '#64748B' }
+                    },
+                    fontFamily: { sans: ['Montserrat', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #F8FAFC; color: #0A192F; }
+        .glass-card { background: #FFFFFF; border: 1px solid #E2E8F0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); border-radius: 8px; }
+        .input-blue { width: 100%; padding: 0.75rem 1rem; border: 1px solid #CBD5E1; border-radius: 6px; outline: none; transition: all 0.3s; font-size: 0.875rem; }
+        .input-blue:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden antialiased font-light">
+
+    <aside class="w-64 bg-brand-navy text-white flex flex-col hidden md:flex">
+        <div class="h-20 flex items-center px-8 border-b border-white/10">
+            <span class="text-xl font-medium tracking-[0.2em]">BLUE<span class="text-brand-blue text-2xl">.</span></span>
+        </div>
+        <nav class="flex-1 px-4 py-8 space-y-2">
+            <a href="#" class="flex items-center px-4 py-3 bg-brand-blue/20 text-brand-light rounded-md transition-colors">
+                <i class="fas fa-paper-plane w-5 text-brand-blue"></i>
+                <span class="text-xs font-medium uppercase tracking-wider">Concierge Automático</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-brand-slate hover:text-white hover:bg-white/5 rounded-md transition-colors">
+                <i class="fas fa-star w-5"></i>
+                <span class="text-xs font-medium uppercase tracking-wider">Painel Google</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-brand-slate hover:text-white hover:bg-white/5 rounded-md transition-colors">
+                <i class="fas fa-shield-alt w-5"></i>
+                <span class="text-xs font-medium uppercase tracking-wider">Gestão de Qualidade</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-white/10">
+            <div class="flex items-center px-4 py-2">
+                <div class="w-8 h-8 rounded-full bg-brand-blue flex items-center justify-center text-xs font-bold mr-3">HE</div>
+                <div>
+                    <p class="text-[10px] font-medium uppercase tracking-wider">Helen</p>
+                    <p class="text-[8px] text-brand-slate uppercase tracking-widest">Operações Clínicas</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto">
+        
+        <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-10">
+            <h1 class="text-lg font-medium text-brand-navy tracking-wide">Módulo de Pós-Atendimento</h1>
+            <div class="flex items-center space-x-4">
+                <span class="px-3 py-1 bg-green-50 text-green-600 border border-green-200 rounded-full text-[9px] uppercase tracking-widest font-medium flex items-center">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-2 animate-pulse"></span> Sistema Ativo
+                </span>
+            </div>
+        </header>
+
+        <div class="p-8 max-w-6xl mx-auto w-full">
+            
+            <div class="glass-card p-8 relative overflow-hidden mt-4">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-gray rounded-bl-full -z-10 opacity-50"></div>
+                
+                <h2 class="text-xl font-medium text-brand-navy mb-2">Agendar Pesquisa de Excelência</h2>
+                <p class="text-xs text-brand-slate mb-8">Insira os dados da paciente. O sistema enviará a mensagem humanizada automaticamente no horário programado.</p>
+
+                <form id="agendamentoForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">Nome da Paciente</label>
+                            <input type="text" id="nome" required class="input-blue" placeholder="Ex: Mariana Silva">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">WhatsApp (com DDD)</label>
+                            <input type="text" id="telefone" required class="input-blue" placeholder="Ex: 5521999999999">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">Data do Disparo</label>
+                            <input type="date" id="data" required class="input-blue">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">Horário do Disparo</label>
+                            <input type="time" id="hora" required class="input-blue">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-8">
+                        <p id="statusMessage" class="text-xs font-medium text-green-600 opacity-0 transition-opacity">✅ Agendamento enviado com sucesso!</p>
+                        <button type="submit" id="btnSubmit" class="bg-brand-navy text-white px-8 py-3 text-[10px] font-medium uppercase tracking-widest rounded hover:bg-brand-blue transition-colors flex items-center shadow-lg shadow-brand-navy/20">
+                            <i class="fas fa-paper-plane mr-2"></i> Programar Disparo
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Seta a data de amanhã e horário padrão (10:00) ao abrir a tela
+        const amanha = new Date();
+        amanha.setDate(amanha.getDate() + 1);
+        document.getElementById('data').valueAsDate = amanha;
+        document.getElementById('hora').value = '10:00';
+
+        document.getElementById('agendamentoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btnSubmit');
+            const status = document.getElementById('statusMessage');
+            
+            // Monta o pacote de dados JSON que vai para o Render
+            const payloadDados = {
+                nome: document.getElementById('nome').value,
+                telefone: document.getElementById('telefone').value,
+                data: document.getElementById('data').value,
+                hora: document.getElementById('hora').value
+            };
+
+            // Efeito visual de processamento para a Helen
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Processando...';
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+            btn.disabled = true;
+
+            // =========================================================
+            // ATENÇÃO LETÍCIA: COLE A SUA URL DO RENDER ABAIXO
+            // Exemplo: 'https://api-blue-clinica.onrender.com/agendar'
+            // =========================================================
+            const URL_DO_RENDER = 'https://api-blue-clinica.onrender.com/agendar';
+
+            fetch(URL_DO_RENDER, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(payloadDados)
+            })
+            .then(response => {
+                if (!response.ok) { throw new Error('Falha na comunicação com o servidor'); }
+                return response.json();
+            })
+            .then(data => {
+                // Sucesso absoluto
+                btn.innerHTML = '<i class="fas fa-check mr-2"></i> Agendado';
+                btn.classList.replace('bg-brand-navy', 'bg-green-600');
+                status.textContent = "✅ Agendamento enviado com sucesso!";
+                status.classList.remove('opacity-0');
+                status.classList.replace('text-red-600', 'text-green-600');
+                
+                // Limpa apenas nome e telefone para facilitar o próximo
+                document.getElementById('nome').value = '';
+                document.getElementById('telefone').value = '';
+                
+                // Reseta o botão ao estado original após 3 segundos
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Programar Disparo';
+                    btn.classList.replace('bg-green-600', 'bg-brand-navy');
+                    btn.classList.remove('opacity-80', 'cursor-not-allowed');
+                    btn.disabled = false;
+                    status.classList.add('opacity-0');
+                }, 3000);
+            })
+            .catch(error => {
+                // Tratamento de erro caso o Render esteja desligado
+                console.error('Erro:', error);
+                btn.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> Erro ao Agendar';
+                btn.classList.replace('bg-brand-navy', 'bg-red-600');
+                
+                status.textContent = "⚠️ Erro de conexão com o servidor. Tente novamente.";
+                status.classList.remove('opacity-0');
+                status.classList.replace('text-green-600', 'text-red-600');
+
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Programar Disparo';
+                    btn.classList.replace('bg-red-600', 'bg-brand-navy');
+                    btn.classList.remove('opacity-80', 'cursor-not-allowed');
+                    btn.disabled = false;
+                    status.classList.add('opacity-0');
+                }, 4000);
+            });
+        });
+    </script>
+</body>
+</html>
