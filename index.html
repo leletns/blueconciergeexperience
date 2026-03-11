@@ -83,7 +83,7 @@
                     <div class="absolute top-0 right-0 w-32 h-32 bg-brand-gray rounded-bl-full -z-10 opacity-50"></div>
                     
                     <h2 class="text-xl font-medium text-brand-navy mb-2">Agendar pesquisa</h2>
-                    <p class="text-xs text-brand-slate mb-8">Insira os dados da paciente. O sistema enviará a mensagem automaticamente no horário programado.</p>
+                    <p class="text-xs text-brand-slate mb-8">Insira os dados da paciente. O sistema enviará a mensagem automaticamente.</p>
 
                     <form id="agendamentoForm" class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -95,20 +95,33 @@
                                 <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">WhatsApp (com DDD)</label>
                                 <input type="text" id="telefone" required class="input-blue" placeholder="Ex: 5521999999999">
                             </div>
-                            <div>
+                            <div class="campo-data">
                                 <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">Data do disparo</label>
-                                <input type="date" id="data" required class="input-blue">
+                                <input type="date" id="data" class="input-blue">
                             </div>
-                            <div>
+                            <div class="campo-data">
                                 <label class="block text-[10px] font-medium text-brand-slate uppercase tracking-widest mb-2">Horário do disparo</label>
-                                <input type="time" id="hora" required class="input-blue">
+                                <input type="time" id="hora" class="input-blue">
                             </div>
                         </div>
 
+                        <div class="flex items-center mt-2 p-3 bg-slate-50 border border-slate-200 rounded-md">
+                            <label class="flex items-center cursor-pointer">
+                                <div class="relative">
+                                    <input type="checkbox" id="disparoImediato" class="sr-only" onchange="toggleImediato()">
+                                    <div class="block bg-slate-300 w-10 h-6 rounded-full transition-colors" id="toggleBg"></div>
+                                    <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform" id="toggleDot" style="transition: transform 0.3s;"></div>
+                                </div>
+                                <div class="ml-3 text-[11px] font-bold text-brand-navy uppercase tracking-widest flex items-center">
+                                    <i class="fas fa-bolt text-yellow-500 mr-2"></i> Forçar disparo imediato
+                                </div>
+                            </label>
+                        </div>
+
                         <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-8">
-                            <p id="statusMessage" class="text-xs font-medium text-green-600 opacity-0 transition-opacity">✅ Agendamento registrado com sucesso.</p>
+                            <p id="statusMessage" class="text-xs font-medium text-green-600 opacity-0 transition-opacity">✅ Comando enviado com sucesso.</p>
                             <button type="submit" id="btnSubmit" class="bg-brand-navy text-white px-8 py-3 text-[10px] font-medium uppercase tracking-widest rounded hover:bg-brand-blue transition-colors flex items-center shadow-lg shadow-brand-navy/20">
-                                <i class="fas fa-paper-plane mr-2"></i> Programar disparo
+                                <i class="fas fa-paper-plane mr-2" id="iconeBtn"></i> <span id="textoBtn">Programar disparo</span>
                             </button>
                         </div>
                     </form>
@@ -212,19 +225,45 @@
             if(tabId === 'google') atualizarMetricas();
         }
 
+        // Lógica do botão Disparar Agora
+        function toggleImediato() {
+            const isImediato = document.getElementById('disparoImediato').checked;
+            const toggleDot = document.getElementById('toggleDot');
+            const toggleBg = document.getElementById('toggleBg');
+            const textoBtn = document.getElementById('textoBtn');
+            const iconeBtn = document.getElementById('iconeBtn');
+            const camposData = document.querySelectorAll('.campo-data');
+
+            if(isImediato) {
+                toggleDot.style.transform = 'translateX(100%)';
+                toggleBg.classList.replace('bg-slate-300', 'bg-red-500'); 
+                textoBtn.innerText = 'DISPARAR AGORA';
+                iconeBtn.className = 'fas fa-fire mr-2';
+                camposData.forEach(c => c.style.opacity = '0.3');
+            } else {
+                toggleDot.style.transform = 'translateX(0)';
+                toggleBg.classList.replace('bg-red-500', 'bg-slate-300');
+                textoBtn.innerText = 'Programar disparo';
+                iconeBtn.className = 'fas fa-paper-plane mr-2';
+                camposData.forEach(c => c.style.opacity = '1');
+            }
+        }
+
         // BANCO DE DADOS TEMPORÁRIO (LOCAL STORAGE)
         function getPacientes() {
             return JSON.parse(localStorage.getItem('blue_pacientes')) || [];
         }
 
-        function salvarPaciente(nome, data, hora) {
+        function salvarPaciente(nome, data, hora, isImediato) {
             const pacientes = getPacientes();
-            const dataFormatada = data.split('-').reverse().join('/');
+            const dataFormatada = data ? data.split('-').reverse().join('/') : 'Agora';
+            const horaFormatada = hora ? `às ${hora}` : '';
+            
             pacientes.unshift({ 
                 nome: nome, 
-                dataDisparo: `${dataFormatada} às ${hora}`,
-                nota: 'Aguardando',
-                status: 'Programado'
+                dataDisparo: isImediato ? 'Imediato' : `${dataFormatada} ${horaFormatada}`,
+                nota: isImediato ? 'Enviado' : 'Aguardando',
+                status: isImediato ? 'Aguardando resposta' : 'Programado'
             });
             localStorage.setItem('blue_pacientes', JSON.stringify(pacientes));
             renderizarTabela();
@@ -252,14 +291,11 @@
         }
 
         function atualizarMetricas() {
-            // Base real do dia 10/03/2026
             const baseRafael = 13;
             const baseBlue = 10;
             const baseTotal = baseRafael + baseBlue;
 
-            // Simula o crescimento baseado no uso do sistema
             const totalAgendados = getPacientes().length;
-            // Estima que 50% dos agendados avaliaram positivamente para a demo
             const novasAvaliacoes = Math.floor(totalAgendados / 2); 
 
             const metricaTotal = document.getElementById('metrica-total');
@@ -296,23 +332,36 @@
             const btn = document.getElementById('btnSubmit');
             const status = document.getElementById('statusMessage');
             const nomeInput = document.getElementById('nome').value;
+            const telefoneInput = document.getElementById('telefone').value;
             const dataInput = document.getElementById('data').value;
             const horaInput = document.getElementById('hora').value;
+            const isImediato = document.getElementById('disparoImediato').checked;
 
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Processando...';
             btn.classList.add('opacity-80', 'cursor-not-allowed');
             btn.disabled = true;
 
-            // =========================================================
-            // COLE A URL DO RENDER ABAIXO PARA INTEGRAR COM O BACKEND
-            // Exemplo: fetch('https://api-blue-clinica.onrender.com/agendar', { ...
-            // =========================================================
-            // fetch('https://api-blue-clinica.onrender.com', { method: 'POST', body: JSON.stringify({...}) });
-            
-            setTimeout(() => {
-                salvarPaciente(nomeInput, dataInput, horaInput);
+            const payloadDados = {
+                nome: nomeInput,
+                telefone: telefoneInput,
+                data: dataInput || "hoje",
+                hora: horaInput || "agora",
+                imediato: isImediato
+            };
 
-                btn.innerHTML = '<i class="fas fa-check mr-2"></i> Agendado';
+            // =========================================================
+            // COLE A URL DO SEU RENDER AQUI (Substitua a linha abaixo)
+            // =========================================================
+            const urlRender = 'https://api-blue-clinica.onrender.com/agendar';
+
+            fetch(urlRender, { 
+                method: 'POST', 
+                body: JSON.stringify(payloadDados),
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => {
+                salvarPaciente(nomeInput, dataInput, horaInput, isImediato);
+                btn.innerHTML = '<i class="fas fa-check mr-2"></i> Sucesso';
                 btn.classList.replace('bg-brand-navy', 'bg-green-600');
                 status.classList.remove('opacity-0');
                 
@@ -320,13 +369,20 @@
                 document.getElementById('telefone').value = '';
                 
                 setTimeout(() => {
+                    toggleImediato();
+                    document.getElementById('disparoImediato').checked = false;
                     btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Programar disparo';
                     btn.classList.replace('bg-green-600', 'bg-brand-navy');
                     btn.classList.remove('opacity-80', 'cursor-not-allowed');
                     btn.disabled = false;
                     status.classList.add('opacity-0');
                 }, 3000);
-            }, 800);
+            }).catch(err => {
+                alert("Erro de conexão. A URL do Render está correta e o servidor está online?");
+                btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Programar disparo';
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+                btn.disabled = false;
+            });
         });
 
         // Inicializa a tabela e métricas ao carregar a página
