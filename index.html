@@ -3,73 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blue Concierge | Disparo Oficial</title>
+    <title>Blue Review | Fricção Zero</title>
     
-    <link rel="icon" href="data:image/svg+xml,
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-    <ellipse cx='50' cy='80' rx='45' ry='12' fill='%23dfe6ee'/>
-    <ellipse cx='30' cy='75' rx='25' ry='8' fill='%23e9eef5'/>
-    <ellipse cx='70' cy='75' rx='25' ry='8' fill='%23e9eef5'/>
-    <path d='M10 80 L50 20 L90 80 Z' fill='%232c3e50'/>
-    <rect x='48' y='28' width='4' height='10' fill='%23ffffff'/>
-    <rect x='40' y='30' width='20' height='3' fill='%23ffffff'/>
-    <circle cx='50' cy='26' r='2' fill='%23ffffff'/>
-    </svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%231d4ed8'/></svg>">
 
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-slate-50 flex items-center justify-center h-screen font-sans">
-    
-    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md border border-slate-100">
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-blue-900 tracking-tight">Clínica Blue</h1>
-            <p class="text-slate-400 text-sm mt-1">Disparo de Pesquisa de Satisfação</p>
-        </div>
-
-        <div class="space-y-5">
-            <div>
-                <label class="block mb-1 text-sm font-semibold text-slate-700">Nome da Paciente</label>
-                <input type="text" id="nome" placeholder="Ex: Letícia" class="w-full border border-slate-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-800 transition">
-            </div>
-
-            <div>
-                <label class="block mb-1 text-sm font-semibold text-slate-700">WhatsApp (com DDD)</label>
-                <input type="text" id="telefone" placeholder="Ex: 21987654321" class="w-full border border-slate-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-800 transition">
-            </div>
-
-            <button onclick="gerarMensagem()" class="w-full bg-blue-900 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-800 transition duration-200 mt-4 shadow-md">
-                Disparar WhatsApp Oficial
-            </button>
-        </div>
-    </div>
-
     <script>
-        function gerarMensagem() {
-            const nome = document.getElementById('nome').value.trim();
-            const telefoneBruto = document.getElementById('telefone').value.replace(/\D/g, ''); 
+        // Função utilitária para colocar apenas a primeira letra em maiúsculo
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        }
+
+        function gerarDisparo() {
+            // 1. Pega os dados e limpa
+            let nomeInput = document.getElementById('nome').value.trim();
+            let telefoneBruto = document.getElementById('telefone').value.replace(/\D/g, ''); 
             
-            // Adiciona o DDI do Brasil (55) automaticamente se a Helen esquecer
+            // 2. Validações básicas
+            if(!nomeInput || !telefoneBruto) {
+                alert("Por favor, preencha o nome e o WhatsApp da paciente.");
+                return;
+            }
+
+            // 3. Processa os dados (Corrige maiúsculas e adiciona 55)
+            const nomeFormatado = capitalize(nomeInput);
+            
             let telefoneFinal = telefoneBruto;
             if (telefoneFinal.length === 11 || telefoneFinal.length === 10) {
                 telefoneFinal = "55" + telefoneFinal;
             }
 
-            // O link do segundo site Vercel (A página da pesquisa/filtro que vamos criar)
-            const linkPesquisa = "https://sua-pesquisa-blue.vercel.app"; 
+            // --- O SEGREDO DO SUCESSO ---
+            // Cole aqui o PLACE ID da clínica (daquele jeito que te ensinei).
+            // Esse link abre DIRETO na caixinha de 5 estrelas.
+            const placeIdClinica = "INSIRA_AQUI_O_PLACE_ID_DA_CLINICA"; 
+            const linkGoogleEstrelas = `https://search.google.com/local/writereview?placeid=${placeIdClinica}`;
 
-            if(!nome || !telefoneFinal) {
-                alert("Por favor, preencha o nome e o número.");
-                return;
-            }
+            // --- O TEXTO PERFEITO, LEVE E DIRETO ---
+            const texto = `Olá, ${nomeFormatado}! 💙\nComo foi sua experiência na Clínica Blue hoje?\n\nSe desejar, será muito especial para nós que compartilhe sua avaliação no Google clicando aqui:\n${linkGoogleEstrelas}\n\nObrigada por nos permitir cuidar de você.`;
 
-            // O texto aprovado pelo Dr. Rafael
-            const texto = `Olá, ${nome}! 💙\n\nEsperamos que sua experiência na Clínica Blue tenha sido excepcional.\n\nPara continuarmos oferecendo o melhor cuidado, convidamos você a responder uma breve pesquisa de satisfação:\n${linkPesquisa}`;
-
+            // 4. Cria a URL do WhatsApp Web e abre
             const textoCodificado = encodeURIComponent(texto);
             const urlWhatsApp = `https://wa.me/${telefoneFinal}?text=${textoCodificado}`;
 
             window.open(urlWhatsApp, '_blank');
         }
     </script>
+</head>
+<body class="bg-slate-100 flex items-center justify-center h-screen font-sans">
+    
+    <div class="bg-white p-10 rounded-3xl shadow-lg w-full max-w-md border border-slate-100">
+        
+        <div class="text-center mb-10">
+            <h1 class="text-2xl font-bold text-blue-900 tracking-tighter">Clínica Blue</h1>
+            <p class="text-slate-500 text-sm mt-1">Gerador de avaliação direta (Google)</p>
+        </div>
+
+        <div class="space-y-6">
+            <div>
+                <label class="block mb-1 text-sm font-semibold text-slate-700">Nome da paciente</label>
+                <input type="text" id="nome" placeholder="Ex: Letícia" class="w-full border border-slate-300 rounded-xl p-4 outline-none focus:ring-2 focus:ring-blue-800 transition">
+            </div>
+
+            <div>
+                <label class="block mb-1 text-sm font-semibold text-slate-700">WhatsApp (com DDD)</label>
+                <input type="text" id="telefone" placeholder="Ex: 21987654321" class="w-full border border-slate-300 rounded-xl p-4 outline-none focus:ring-2 focus:ring-blue-800 transition">
+            </div>
+
+            <button onclick="gerarDisparo()" class="w-full bg-blue-700 text-white font-bold py-4 px-4 rounded-xl hover:bg-blue-800 transition duration-200 mt-6 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                Enviar mensagem oficial
+            </button>
+        </div>
+    </div>
+
 </body>
 </html>
