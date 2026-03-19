@@ -11,180 +11,202 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         input, textarea { border-color: #f4f4f5 !important; transition: all 0.2s; }
         input:focus, textarea:focus { border-color: #000 !important; ring: 0 !important; }
-        .star-active { color: #000; }
-        .star-inactive { color: #e4e4e7; }
+        .agenda-item { transition: all 0.2s; border-left: 2px solid transparent; }
+        .agenda-item:hover { border-left: 2px solid #000; background: #fafafa; }
     </style>
 </head>
-<body class="min-h-screen overflow-x-hidden">
+<body class="flex flex-col md:flex-row h-screen overflow-hidden">
 
-    <div id="app-helen" class="flex flex-col md:flex-row h-screen">
-        <main class="w-full md:w-[480px] p-10 md:p-16 overflow-y-auto border-r border-zinc-100 no-scrollbar flex flex-col">
-            <header class="mb-12 flex justify-between items-start">
-                <div>
-                    <h1 class="text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-300">Blue Intelligence</h1>
-                    <p class="text-2xl font-light text-zinc-900 mt-1">Gestão de Paciente</p>
-                </div>
-                <a href="https://api.amigoapp.com.br/api/281474/57191/119754/my-calendar.ics" target="_blank" class="text-[9px] font-bold uppercase border border-zinc-200 px-3 py-1 hover:bg-zinc-50 transition">Agenda Dr. Rafael</a>
-            </header>
-
-            <div class="space-y-8 flex-1">
-                <div class="space-y-4">
-                    <input type="text" id="nome" placeholder="Nome da Paciente" class="w-full border-b py-3 outline-none text-xl font-light placeholder:text-zinc-200">
-                    <input type="text" id="telefone" placeholder="WhatsApp (DDD + Número)" class="w-full border-b py-3 outline-none text-xl font-light placeholder:text-zinc-200">
-                </div>
-
-                <div class="grid grid-cols-2 gap-y-4 gap-x-6 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-                    <label class="flex items-center gap-2 cursor-pointer hover:text-black transition"><input type="checkbox" id="cirurgia" class="w-3 h-3 accent-black"> Cirurgia Fechada</label>
-                    <label class="flex items-center gap-2 cursor-pointer hover:text-black transition"><input type="checkbox" id="pago2" class="w-3 h-3 accent-black"> 2ª Parte Paga</label>
-                    <label class="flex items-center gap-2 cursor-pointer hover:text-black transition"><input type="checkbox" id="injetavel" class="w-3 h-3 accent-black"> Injetável</label>
-                    <label class="flex items-center gap-2 cursor-pointer hover:text-black transition"><input type="checkbox" id="pendente" class="w-3 h-3 accent-black"> Exames Pendentes</label>
-                </div>
-
-                <textarea id="notas" rows="3" placeholder="Evolução, dúvidas ou pendências..." class="w-full border-zinc-100 border p-4 text-sm font-light outline-none resize-none bg-zinc-50"></textarea>
-
-                <button onclick="registrarEPrapararEnvio()" class="w-full bg-black text-white py-6 text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-zinc-800 transition-all shadow-2xl shadow-zinc-200 active:scale-95">
-                    Arquivar e Gerar Convite
-                </button>
+    <main class="w-full md:w-[500px] p-10 md:p-14 overflow-y-auto border-r border-zinc-100 no-scrollbar flex flex-col">
+        <header class="mb-10 flex justify-between items-start">
+            <div>
+                <h1 class="text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-300">Blue Intelligence</h1>
+                <p class="text-2xl font-light text-zinc-900 mt-1">Gestão de Paciente</p>
             </div>
-        </main>
+            <button onclick="carregarAgendaAmigo()" class="text-[9px] font-bold uppercase border border-zinc-200 px-3 py-1 hover:bg-zinc-50 transition flex items-center gap-2">
+                <span id="sync-status" class="w-2 h-2 rounded-full bg-zinc-300"></span>
+                Sincronizar Agenda
+            </button>
+        </header>
 
-        <aside class="flex-1 bg-zinc-50 p-10 md:p-16 overflow-y-auto no-scrollbar">
-            <div class="flex justify-between items-center mb-12">
-                <h3 class="text-[10px] font-bold uppercase text-zinc-400 tracking-widest">Evolução e Prontuário</h3>
-                <div class="flex gap-4">
-                    <button onclick="exportarCSV()" class="text-[10px] text-zinc-900 font-bold border-b border-black">Exportar Relatório Mac</button>
-                    <button onclick="limpar()" class="text-[10px] text-zinc-300 hover:text-red-500 transition">Limpar</button>
-                </div>
-            </div>
-            <div id="feed" class="space-y-6 max-w-xl"></div>
-        </aside>
-    </div>
-
-    <div id="app-paciente" class="hidden fixed inset-0 bg-white flex flex-col items-center justify-center p-10 text-center">
-        <div class="max-w-md w-full space-y-12">
-            <header>
-                <h2 id="paciente-nome-saudacao" class="text-3xl font-light text-zinc-900 tracking-tight">Olá, [Nome].</h2>
-                <p class="text-zinc-400 text-sm mt-4 font-light leading-relaxed italic">Como foi sua experiência na Clínica Blue hoje?</p>
-            </header>
-
-            <div class="flex justify-center gap-4 py-4">
-                <span onclick="setStars(1)" class="star text-4xl cursor-pointer star-inactive transition-colors">★</span>
-                <span onclick="setStars(2)" class="star text-4xl cursor-pointer star-inactive transition-colors">★</span>
-                <span onclick="setStars(3)" class="star text-4xl cursor-pointer star-inactive transition-colors">★</span>
-                <span onclick="setStars(4)" class="star text-4xl cursor-pointer star-inactive transition-colors">★</span>
-                <span onclick="setStars(5)" class="star text-4xl cursor-pointer star-inactive transition-colors">★</span>
-            </div>
-
-            <div id="feedback-box" class="hidden space-y-6 animate-fade-in">
-                <textarea id="paciente-feedback" placeholder="Conte-nos brevemente o porquê..." class="w-full border-b border-zinc-100 py-3 outline-none text-center font-light italic"></textarea>
-                <button onclick="enviarFeedback()" class="w-full bg-black text-white py-5 text-[10px] font-bold uppercase tracking-[0.2em]">Concluir Avaliação</button>
+        <div class="mb-10">
+            <h3 class="text-[9px] font-bold uppercase text-zinc-400 tracking-widest mb-4">Pacientes de Hoje (Amigo App)</h3>
+            <div id="agenda-lista" class="space-y-2 max-h-40 overflow-y-auto no-scrollbar border border-zinc-100 p-2 rounded-sm">
+                <p class="text-xs text-zinc-400 italic p-2">Clique em "Sincronizar Agenda" para carregar...</p>
             </div>
         </div>
-    </div>
+
+        <div class="space-y-8 flex-1">
+            <div class="space-y-4">
+                <input type="text" id="nome" placeholder="Nome da Paciente" class="w-full border-b py-3 outline-none text-xl font-light placeholder:text-zinc-200 transition-all">
+                <input type="text" id="telefone" placeholder="WhatsApp (DDD + Número)" class="w-full border-b py-3 outline-none text-xl font-light placeholder:text-zinc-200 transition-all">
+            </div>
+
+            <div class="grid grid-cols-2 gap-y-4 gap-x-6 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                <label class="flex items-center gap-2 cursor-pointer hover:text-black transition"><input type="checkbox" id="cirurgia" class="w-3 h-3 accent-black"> Cirurgia Fechada</label>
+                <label class="flex items-center gap-2 cursor-pointer hover:text-black transition"><input type="checkbox" id="pago2" class="w-3 h-3 accent-black"> 2ª Parte Paga</label>
+                <label class="flex items-center gap-2 cursor-pointer hover:text-black transition"><input type="checkbox" id="injetavel" class="w-3 h-3 accent-black"> Injetável</label>
+                <label class="flex items-center gap-2 cursor-pointer hover:text-black transition"><input type="checkbox" id="pendente" class="w-3 h-3 accent-black"> Exames Pendentes</label>
+            </div>
+
+            <textarea id="notas" rows="2" placeholder="Evolução, dúvidas ou pendências..." class="w-full border-zinc-100 border p-4 text-sm font-light outline-none resize-none bg-zinc-50"></textarea>
+
+            <button onclick="registrar()" class="w-full bg-black text-white py-6 text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-zinc-800 transition-all shadow-xl shadow-zinc-200 active:scale-95">
+                Arquivar e Enviar Review
+            </button>
+        </div>
+    </main>
+
+    <aside class="flex-1 bg-zinc-50 p-10 md:p-14 overflow-y-auto no-scrollbar">
+        <div class="flex justify-between items-center mb-12">
+            <h3 class="text-[10px] font-bold uppercase text-zinc-400 tracking-widest">Evolução de Hoje</h3>
+            <div class="flex gap-4">
+                <button onclick="exportarExcel()" class="text-[10px] text-zinc-900 font-bold border-b border-black">Exportar Relatório</button>
+                <button onclick="limpar()" class="text-[10px] text-zinc-300 hover:text-red-500 transition">Limpar Base</button>
+            </div>
+        </div>
+        <div id="feed" class="space-y-6 max-w-xl"></div>
+    </aside>
 
     <script>
-        let selectedStars = 0;
-        let currentPatient = {};
-
-        // Inicialização
         window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('view') === 'patient') {
-                document.getElementById('app-helen').classList.add('hidden');
-                document.getElementById('app-paciente').classList.remove('hidden');
-                document.getElementById('paciente-nome-saudacao').innerText = `Olá, ${params.get('n')}. ✨`;
-            }
             carregar();
+            carregarAgendaAmigo(); // Já tenta puxar a agenda assim que abre
         };
 
-        function registrarEPrapararEnvio() {
+        // --- MÁGICA DA AGENDA AMIGO APP ---
+        async function carregarAgendaAmigo() {
+            const statusIndicator = document.getElementById('sync-status');
+            const lista = document.getElementById('agenda-lista');
+            statusIndicator.classList.replace('bg-zinc-300', 'bg-yellow-400'); // Carregando
+            
+            // Link ICS do AmigoApp com Proxy para burlar o CORS (100% Grátis)
+            const urlICS = "https://api.amigoapp.com.br/api/281474/57191/119754/my-calendar.ics";
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(urlICS)}`;
+
+            try {
+                const response = await fetch(proxyUrl);
+                const icsData = await response.text();
+                
+                // Pega a data de hoje no formato do arquivo ICS (YYYYMMDD)
+                const hoje = new Date();
+                const strHoje = `${hoje.getFullYear()}${String(hoje.getMonth()+1).padStart(2,'0')}${String(hoje.getDate()).padStart(2,'0')}`;
+                
+                // Extrai os eventos do texto cru
+                const eventos = icsData.split('BEGIN:VEVENT');
+                let htmlAgenda = '';
+                let cont = 0;
+
+                eventos.forEach(evento => {
+                    // Se o evento for de hoje (verifica a string de data)
+                    if(evento.includes(`DTSTART;TZID=America/Sao_Paulo:${strHoje}`) || evento.includes(`DTSTART:${strHoje}`)) {
+                        // Tenta extrair o nome (SUMMARY)
+                        const matchSummary = evento.match(/SUMMARY:(.*)/);
+                        if(matchSummary && matchSummary[1]) {
+                            // Limpa o nome (tira o "Consulta:" se vier do AmigoApp)
+                            let nomePaciente = matchSummary[1].replace('Consulta:', '').replace('\\,', ',').trim();
+                            
+                            htmlAgenda += `
+                                <div onclick="selecionarPaciente('${nomePaciente.replace(/'/g, "\\'")}')" class="agenda-item cursor-pointer p-3 bg-white border border-zinc-100 flex justify-between items-center text-sm shadow-sm">
+                                    <span class="font-medium text-zinc-800">${nomePaciente}</span>
+                                    <span class="text-[9px] font-bold text-zinc-400 uppercase tracking-widest bg-zinc-50 px-2 py-1">Selecionar</span>
+                                </div>
+                            `;
+                            cont++;
+                        }
+                    }
+                });
+
+                lista.innerHTML = cont > 0 ? htmlAgenda : `<p class="text-xs text-zinc-400 italic p-2">Nenhum paciente agendado para hoje ainda.</p>`;
+                statusIndicator.classList.replace('bg-yellow-400', 'bg-green-500'); // Sucesso
+
+            } catch (error) {
+                lista.innerHTML = `<p class="text-xs text-red-400 p-2">Falha ao sincronizar. Tente novamente.</p>`;
+                statusIndicator.classList.replace('bg-yellow-400', 'bg-red-500'); // Erro
+            }
+        }
+
+        function selecionarPaciente(nome) {
+            document.getElementById('nome').value = nome;
+            // Foca no WhatsApp pra ela só digitar o número e ir pro abraço
+            document.getElementById('telefone').focus(); 
+        }
+
+        // --- SISTEMA DE REGISTRO E DISPARO ---
+        function registrar() {
             const nome = document.getElementById('nome').value.trim();
             const tel = document.getElementById('telefone').value.replace(/\D/g, '');
             if(!nome || !tel) return alert("Preencha Nome e WhatsApp.");
 
+            const primeiroNome = nome.split(' ')[0];
+
+            // Salva no CRM local
             const data = {
-                id: Date.now(), nome, tel,
-                notas: document.getElementById('notas').value,
+                id: Date.now(), nome: nome, tel: tel,
+                notas: document.getElementById('notas').value.trim(),
                 cirurgia: document.getElementById('cirurgia').checked,
                 pago2: document.getElementById('pago2').checked,
                 injetavel: document.getElementById('injetavel').checked,
                 pendente: document.getElementById('pendente').checked,
-                hora: new Date().toLocaleString()
+                data: new Date().toLocaleDateString('pt-BR'),
+                hora: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
             };
 
             let db = JSON.parse(localStorage.getItem('blue_crm') || '[]');
             db.unshift(data);
             localStorage.setItem('blue_crm', JSON.stringify(db));
 
-            // URL da sua página no Vercel (substitua pelo link real após subir)
-            const siteUrl = window.location.href.split('?')[0];
-            const feedbackLink = `${siteUrl}?view=patient&n=${nome.split(' ')[0]}&t=${tel}`;
-
-            // MENSAGEM OFICIAL REQUERIDA
-            const msg = `Olá, ${nome.split(' ')[0]}, tudo bem? 💙\n\nAqui na Clínica Blue, cada paciente faz parte da nossa história.\n\nSe desejar, será muito especial para nós que compartilhe sua experiência em uma avaliação no Google.\n\nSeu olhar e sua palavra fazem toda a diferença para quem está prestes a iniciar esse mesmo caminho.\n\n👉 ACESSAR AVALIAÇÃO: ${feedbackLink}\n\nObrigada por nos permitir cuidar de você.`;
-
-            window.open(`https://wa.me/${tel.length <= 11 ? '55'+tel : tel}?text=${encodeURIComponent(msg)}`, '_blank');
-            resetHelen(); carregar();
-        }
-
-        // LÓGICA PACIENTE
-        function setStars(n) {
-            selectedStars = n;
-            const stars = document.querySelectorAll('.star');
-            stars.forEach((s, i) => {
-                s.classList.toggle('star-active', i < n);
-                s.classList.toggle('star-inactive', i >= n);
-            });
-            document.getElementById('feedback-box').classList.remove('hidden');
-        }
-
-        function enviarFeedback() {
-            const params = new URLSearchParams(window.location.search);
-            const nome = params.get('n');
-            const porquê = document.getElementById('paciente-feedback').value;
-            
-            // Lógica de Alternância 50/50
+            // Lógica SEO 50/50: Clínica vs Dr. Rafael com 5 estrelas automáticas
             const ids = ["ChIJBTM3zeGDmQARyRhhkzvD4sg", "ChIJ781BVf2DmQARU2cPXLuuOHQ"];
             let idx = localStorage.getItem('blue_idx') || 0;
+            const linkGoogle = `https://search.google.com/local/writereview?placeid=${ids[idx]}&review=5`;
             localStorage.setItem('blue_idx', (parseInt(idx) + 1) % 2);
 
-            if (selectedStars >= 4) {
-                // REDIRECIONA AUTOMATICAMENTE PARA O GOOGLE COM 5 ESTRELAS
-                window.location.href = `https://search.google.com/local/writereview?placeid=${ids[idx]}&review=5`;
-            } else {
-                // FEEDBACK PRIVADO VIA WHATSAPP PARA A HELEN
-                const msgPrivada = `Feedback Privado de ${nome}:\nNota: ${selectedStars} estrelas\nMotivo: ${porquê}`;
-                window.location.href = `https://wa.me/55219XXXXXXXX?text=${encodeURIComponent(msgPrivada)}`;
-            }
+            // Mensagem Exata Solicitada
+            const msg = `Olá, ${primeiroNome}, tudo bem? 💙\n\nAqui na Clínica Blue, cada paciente faz parte da nossa história.\n\nSe desejar, será muito especial para nós que compartilhe sua experiência em uma avaliação no Google.\n\nSeu olhar e sua palavra fazem toda a diferença para quem está prestes a iniciar esse mesmo caminho.\n\n👉 ${linkGoogle}\n\nObrigada por nos permitir cuidar de você.`;
+            
+            // Disparo via WhatsApp
+            let telefoneFinal = (tel.length <= 11) ? "55" + tel : tel;
+            window.open(`https://wa.me/${telefoneFinal}?text=${encodeURIComponent(msg)}`, '_blank');
+            
+            reset(); carregar();
         }
 
-        // FUNÇÕES DE APOIO
+        // --- FUNÇÕES DE INTERFACE ---
         function carregar() {
             const feed = document.getElementById('feed');
             const db = JSON.parse(localStorage.getItem('blue_crm') || '[]');
             feed.innerHTML = db.length ? '' : '<p class="text-zinc-300 italic text-sm">Aguardando atendimentos.</p>';
             db.forEach(p => {
                 const div = document.createElement('div');
-                div.className = "bg-white p-8 border border-zinc-100 shadow-sm mb-4";
-                div.innerHTML = `<div class="flex justify-between mb-2"><span class="font-medium">${p.nome}</span><span class="text-[9px] text-zinc-300 font-mono">${p.hora}</span></div><p class="text-xs text-zinc-400 font-light italic">"${p.notas || 'Sem notas.'}"</p>`;
+                div.className = "bg-white p-8 border border-zinc-100 shadow-sm transition-all hover:shadow-md";
+                div.innerHTML = `
+                    <div class="flex justify-between mb-4"><span class="font-medium text-lg">${p.nome}</span><span class="text-[10px] text-zinc-300 font-mono uppercase tracking-tighter">${p.hora}</span></div>
+                    <div class="flex flex-wrap gap-2 mb-4">${p.cirurgia ? '<span class="text-[8px] bg-black text-white px-2 py-0.5 font-bold uppercase tracking-widest">Cirurgia</span>':''}${p.pago2 ? '<span class="text-[8px] bg-zinc-100 text-zinc-900 px-2 py-0.5 font-bold uppercase tracking-widest border border-zinc-200">Quitado</span>':''}${p.injetavel ? '<span class="text-[8px] bg-zinc-100 text-zinc-900 px-2 py-0.5 font-bold uppercase tracking-widest border border-zinc-200">Injetável</span>':''}${p.pendente ? '<span class="text-[8px] text-red-500 border border-red-100 px-2 py-0.5 font-bold uppercase tracking-widest">Pendências</span>':''}</div>
+                    <p class="text-xs text-zinc-500 font-light leading-relaxed border-t border-zinc-50 pt-4 italic">"${p.notas || 'Sem observações adicionais.'}"</p>
+                `;
                 feed.appendChild(div);
             });
         }
 
-        function exportarCSV() {
+        function exportarExcel() {
             const db = JSON.parse(localStorage.getItem('blue_crm') || '[]');
-            let csv = "Nome;WhatsApp;Cirurgia;Pago2;Injetavel;Pendente;Notas\n";
-            db.forEach(p => { csv += `${p.nome};${p.tel};${p.cirurgia};${p.pago2};${p.injetavel};${p.pendente};${p.notas}\n`; });
+            if(!db.length) return alert("Sem dados para exportar.");
+            let csv = "Data;Hora;Nome;WhatsApp;Cirurgia Fechada;Segunda Parte Paga;Injetavel;Exames Pendentes;Notas de Evolucao\n";
+            db.forEach(p => {
+                csv += `${p.data};${p.hora};${p.nome};${p.tel};${p.cirurgia ? 'Sim' : 'Nao'};${p.pago2 ? 'Sim' : 'Nao'};${p.injetavel ? 'Sim' : 'Nao'};${p.pendente ? 'Sim' : 'Nao'};${p.notas}\n`;
+            });
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a"); link.href = URL.createObjectURL(blob);
-            link.setAttribute("download", `Blue_Intelligence_Export.csv`); link.click();
+            link.setAttribute("download", `Blue_Relatorio_${new Date().toLocaleDateString().replace(/\//g, '-')}.csv`); link.click();
         }
 
-        function resetHelen() {
+        function reset() {
             document.getElementById('nome').value = ''; document.getElementById('telefone').value = ''; document.getElementById('notas').value = '';
             document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
         }
-        function limpar() { if(confirm("Apagar histórico?")) { localStorage.removeItem('blue_crm'); carregar(); } }
+
+        function limpar() { if(confirm("Apagar histórico de hoje do navegador?")) { localStorage.removeItem('blue_crm'); carregar(); } }
     </script>
 </body>
 </html>
