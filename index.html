@@ -3,56 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blue Concierge | Dashboard</title>
+    <title>Blue Concierge | Dashboard v3</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%231d4ed8'/></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
+        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.7); }
+        input[type="text"]:focus { box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); }
     </style>
 </head>
-<body class="bg-[#f8fafc] min-h-screen p-4 md:p-10">
+<body class="min-h-screen p-6 md:p-12">
 
-    <div class="max-w-4xl mx-auto">
-        <div class="flex justify-between items-center mb-10">
+    <div class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-12">
             <div>
-                <h1 class="text-3xl font-bold text-slate-900 tracking-tighter">Blue Clínica</h1>
+                <h1 class="text-3xl font-bold text-slate-950 tracking-tighter">Blue Clínica</h1>
                 <p class="text-slate-500">Gestão de Experiência e SEO</p>
             </div>
-            <div class="bg-blue-50 px-4 py-2 rounded-full border border-blue-100">
-                <span class="text-blue-700 text-sm font-semibold">● Sistema Ativo</span>
+            <div class="bg-blue-50 px-5 py-2.5 rounded-full border border-blue-100 flex items-center gap-2">
+                <span class="relative flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span></span>
+                <span class="text-blue-900 text-sm font-semibold">Sistema Ativo (Fricção Zero)</span>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="glass border border-white p-8 rounded-[2rem] shadow-sm">
-                <h2 class="text-xl font-semibold text-slate-800 mb-6">Novo Disparo</h2>
+        <div class="grid grid-cols-1 xl:grid-cols-[2fr,1fr] gap-10">
+            <div class="glass p-10 rounded-[2.5rem] shadow-sm">
+                <h2 class="text-2xl font-semibold text-slate-900 mb-8 tracking-tight">Disparar Avaliação</h2>
                 
-                <div class="space-y-5">
+                <div class="space-y-6">
                     <div>
-                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Nome da Paciente</label>
-                        <input type="text" id="nome" placeholder="Ex: Letícia" class="w-full bg-slate-50 border-none rounded-2xl p-4 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2.5">Nome da Paciente</label>
+                        <input type="text" id="nome" placeholder="Ex: Letícia Mello" class="w-full bg-slate-50 border-none rounded-2xl p-5 outline-none transition-all">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">WhatsApp</label>
-                        <input type="text" id="telefone" placeholder="21987654321" class="w-full bg-slate-50 border-none rounded-2xl p-4 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2.5">WhatsApp (com DDD)</label>
+                        <input type="text" id="telefone" placeholder="21987654321" class="w-full bg-slate-50 border-none rounded-2xl p-5 outline-none transition-all">
                     </div>
 
-                    <button onclick="gerarDisparo()" class="w-full bg-slate-900 text-white font-bold py-5 rounded-2xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200 flex items-center justify-center gap-2">
-                        Enviar Avaliação 5 Estrelas
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
+                    <button onclick="gerarDisparo()" class="w-full bg-blue-600 text-white font-bold py-5 rounded-2xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-100 flex items-center justify-center gap-2.5 text-lg">
+                        Enviar Convite Premium
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
                     </button>
+                    <p class="text-[11px] text-slate-400 text-center px-4">O link leva a paciente <strong class="text-blue-600">direto</strong> para a tela de 5 estrelas do Google.</p>
                 </div>
             </div>
 
-            <div class="glass border border-white p-8 rounded-[2rem] shadow-sm overflow-hidden">
-                <h2 class="text-xl font-semibold text-slate-800 mb-6">Histórico de Hoje</h2>
-                <div id="historico" class="space-y-4 max-h-[300px] overflow-y-auto pr-2 text-sm text-slate-600">
-                    <p class="italic text-slate-400">Nenhum envio realizado ainda.</p>
+            <div class="glass p-9 rounded-[2.5rem] shadow-sm overflow-hidden border border-slate-100">
+                <div class="flex justify-between items-center mb-7">
+                    <h2 class="text-xl font-semibold text-slate-900 tracking-tight">Log de Hoje</h2>
+                    <button onclick="limparLog()" class="text-xs text-slate-400 hover:text-slate-900 transition font-medium">Limpar</button>
+                </div>
+                <div id="historico" class="space-y-4 max-h-[360px] overflow-y-auto pr-2 text-sm text-slate-700 font-mono">
+                    <p class="italic text-slate-400 font-sans">Nenhum envio realizado ainda.</p>
                 </div>
             </div>
         </div>
@@ -60,42 +64,49 @@
 
     <script>
         function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+            return str.toLowerCase().replace(/(^|\s)\S/g, function(l){ return l.toUpperCase(); });
+        }
+
+        function limparLog() {
+            document.getElementById('historico').innerHTML = '<p class="italic text-slate-400 font-sans">Histórico limpo.</p>';
         }
 
         function adicionarAoHistorico(nome, destino) {
             const lista = document.getElementById('historico');
-            if (lista.querySelector('p')) lista.innerHTML = ''; // Limpa o "nenhum envio"
+            if (lista.querySelector('.italic')) lista.innerHTML = ''; // Limpa o "nenhum envio"
 
             const item = document.createElement('div');
-            item.className = "flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-slate-100 animate-fade-in";
+            item.className = "flex justify-between items-center p-3.5 bg-slate-50 rounded-xl border border-slate-100 animate-fade-in";
             const hora = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
             item.innerHTML = `
                 <div>
-                    <span class="font-bold text-slate-900">${nome}</span>
+                    <span class="font-bold text-slate-900 font-sans">${nome}</span>
                     <p class="text-[10px] text-slate-400 font-mono">${hora}</p>
                 </div>
-                <span class="text-[10px] px-2 py-1 rounded-md ${destino.includes('Rafael') ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'} font-bold">
+                <span class="text-[10px] px-2.5 py-1 rounded-md ${destino.includes('Rafael') ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'} font-bold">
                     ${destino}
                 </span>
             `;
             lista.prepend(item);
         }
 
+        // --- O CÓDIGO DO DISPARO FUNCIONAL ---
         function gerarDisparo() {
             let nomeInput = document.getElementById('nome').value.trim();
             let telefoneBruto = document.getElementById('telefone').value.replace(/\D/g, ''); 
             
+            // Validações
             if(!nomeInput || !telefoneBruto) {
-                alert("Por favor, preencha tudo.");
+                alert("Por favor, preencha o Nome e o WhatsApp da paciente.");
                 return;
             }
 
+            // Formatações
             const nomeFormatado = capitalize(nomeInput);
             let telefoneFinal = (telefoneBruto.length <= 11) ? "55" + telefoneBruto : telefoneBruto;
 
-            // --- LÓGICA 50/50 ---
+            // --- LÓGICA AUTOMÁTICA 50/50 (Alternância) ---
             const configs = [
                 { id: "ChIJBTM3zeGDmQARyRhhkzvD4sg", label: "Clínica Blue" },
                 { id: "ChIJ781BVf2DmQARU2cPXLuuOHQ", label: "Dr. Rafael" }
@@ -104,22 +115,33 @@
             let index = parseInt(localStorage.getItem('blue_idx') || 0);
             const atual = configs[index];
 
-            // Atualiza para o próximo
+            // Atualiza para a PRÓXIMA vez (0 vira 1, 1 vira 0)
             localStorage.setItem('blue_idx', (index + 1) % 2);
 
             const linkGoogle = `https://search.google.com/local/writereview?placeid=${atual.id}`;
 
-            // --- MENSAGEM COM "BOTÃO FAKE" PREMIUM ---
-            const texto = `Olá, ${nomeFormatado}! 💙\n\nEsperamos que sua experiência na Clínica Blue tenha sido excepcional.\n\nComo cada paciente faz parte da nossa história, seria muito especial se você pudesse compartilhar sua nota no Google agora:\n\n⭐ AVALIAR 5 ESTRELAS ⭐\n👉 ${linkGoogle}\n\nObrigada por nos permitir cuidar de você!`;
+            // --- A MENSAGEM COM O "BOTÃO FAKE" ---
+            const texto = `Olá, ${nomeFormatado}! 💙\nComo foi sua experiência na Clínica Blue hoje?\n\nComo cada paciente faz parte da nossa história, seria muito especial se você pudesse compartilhar sua avaliação no Google agora:\n\n⭐ CLIQUE AQUI PARA AVALIAR ⭐\n👉 ${linkGoogle}\n\nObrigada por nos permitir cuidar de você!`;
 
-            const urlWpp = `https://wa.me/${telefoneFinal}?text=${encodeURIComponent(texto)}`;
+            // Codifica o texto para formato de URL do WhatsApp de forma SEGURA
+            const textoCodificado = encodeURIComponent(texto);
+            const urlWpp = `https://wa.me/${telefoneFinal}?text=${textoCodificado}`;
 
-            adicionarAoHistorico(nomeFormatado, atual.label);
+            // --- EXECUÇÃO ---
+            // 1. Abre o WhatsApp com a mensagem pronta
             window.open(urlWpp, '_blank');
             
-            // Limpa o campo nome para a próxima
+            // 2. Atualiza o Log/Histórico da Helen em tempo real
+            adicionarAoHistorico(nomeFormatado, atual.label);
+            
+            // 3. Limpa o campo de nome para a próxima paciente
             document.getElementById('nome').value = '';
-        </div>
+        }
     </script>
+
+    <style>
+        @keyframes fade-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fade-in 0.3s ease-out; }
+    </style>
 </body>
 </html>
