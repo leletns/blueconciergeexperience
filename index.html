@@ -3,78 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blue Review | Fricção Zero</title>
-    
+    <title>Blue Concierge | Dashboard</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%231d4ed8'/></svg>">
-
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="bg-[#f8fafc] min-h-screen p-4 md:p-10">
+
+    <div class="max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-10">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-900 tracking-tighter">Blue Clínica</h1>
+                <p class="text-slate-500">Gestão de Experiência e SEO</p>
+            </div>
+            <div class="bg-blue-50 px-4 py-2 rounded-full border border-blue-100">
+                <span class="text-blue-700 text-sm font-semibold">● Sistema Ativo</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="glass border border-white p-8 rounded-[2rem] shadow-sm">
+                <h2 class="text-xl font-semibold text-slate-800 mb-6">Novo Disparo</h2>
+                
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Nome da Paciente</label>
+                        <input type="text" id="nome" placeholder="Ex: Letícia" class="w-full bg-slate-50 border-none rounded-2xl p-4 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">WhatsApp</label>
+                        <input type="text" id="telefone" placeholder="21987654321" class="w-full bg-slate-50 border-none rounded-2xl p-4 outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                    </div>
+
+                    <button onclick="gerarDisparo()" class="w-full bg-slate-900 text-white font-bold py-5 rounded-2xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200 flex items-center justify-center gap-2">
+                        Enviar Avaliação 5 Estrelas
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="glass border border-white p-8 rounded-[2rem] shadow-sm overflow-hidden">
+                <h2 class="text-xl font-semibold text-slate-800 mb-6">Histórico de Hoje</h2>
+                <div id="historico" class="space-y-4 max-h-[300px] overflow-y-auto pr-2 text-sm text-slate-600">
+                    <p class="italic text-slate-400">Nenhum envio realizado ainda.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Função utilitária para colocar apenas a primeira letra em maiúsculo
         function capitalize(str) {
             return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
         }
 
+        function adicionarAoHistorico(nome, destino) {
+            const lista = document.getElementById('historico');
+            if (lista.querySelector('p')) lista.innerHTML = ''; // Limpa o "nenhum envio"
+
+            const item = document.createElement('div');
+            item.className = "flex justify-between items-center p-3 bg-slate-50 rounded-xl border border-slate-100 animate-fade-in";
+            const hora = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            item.innerHTML = `
+                <div>
+                    <span class="font-bold text-slate-900">${nome}</span>
+                    <p class="text-[10px] text-slate-400 font-mono">${hora}</p>
+                </div>
+                <span class="text-[10px] px-2 py-1 rounded-md ${destino.includes('Rafael') ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'} font-bold">
+                    ${destino}
+                </span>
+            `;
+            lista.prepend(item);
+        }
+
         function gerarDisparo() {
-            // 1. Pega os dados e limpa
             let nomeInput = document.getElementById('nome').value.trim();
             let telefoneBruto = document.getElementById('telefone').value.replace(/\D/g, ''); 
             
-            // 2. Validações básicas
             if(!nomeInput || !telefoneBruto) {
-                alert("Por favor, preencha o nome e o WhatsApp da paciente.");
+                alert("Por favor, preencha tudo.");
                 return;
             }
 
-            // 3. Processa os dados (Corrige maiúsculas e adiciona 55)
             const nomeFormatado = capitalize(nomeInput);
+            let telefoneFinal = (telefoneBruto.length <= 11) ? "55" + telefoneBruto : telefoneBruto;
+
+            // --- LÓGICA 50/50 ---
+            const configs = [
+                { id: "ChIJBTM3zeGDmQARyRhhkzvD4sg", label: "Clínica Blue" },
+                { id: "ChIJ781BVf2DmQARU2cPXLuuOHQ", label: "Dr. Rafael" }
+            ];
+
+            let index = parseInt(localStorage.getItem('blue_idx') || 0);
+            const atual = configs[index];
+
+            // Atualiza para o próximo
+            localStorage.setItem('blue_idx', (index + 1) % 2);
+
+            const linkGoogle = `https://search.google.com/local/writereview?placeid=${atual.id}`;
+
+            // --- MENSAGEM COM "BOTÃO FAKE" PREMIUM ---
+            const texto = `Olá, ${nomeFormatado}! 💙\n\nEsperamos que sua experiência na Clínica Blue tenha sido excepcional.\n\nComo cada paciente faz parte da nossa história, seria muito especial se você pudesse compartilhar sua nota no Google agora:\n\n⭐ AVALIAR 5 ESTRELAS ⭐\n👉 ${linkGoogle}\n\nObrigada por nos permitir cuidar de você!`;
+
+            const urlWpp = `https://wa.me/${telefoneFinal}?text=${encodeURIComponent(texto)}`;
+
+            adicionarAoHistorico(nomeFormatado, atual.label);
+            window.open(urlWpp, '_blank');
             
-            let telefoneFinal = telefoneBruto;
-            if (telefoneFinal.length === 11 || telefoneFinal.length === 10) {
-                telefoneFinal = "55" + telefoneFinal;
-            }
-
-            // --- O SEGREDO DO SUCESSO ---
-            // Cole aqui o PLACE ID da clínica (daquele jeito que te ensinei).
-            // Esse link abre DIRETO na caixinha de 5 estrelas.
-            const placeIdClinica = "ChIJBTM3zeGDmQARyRhhkzvD4sg"; 
-            const linkGoogleEstrelas = `https://search.google.com/local/writereview?placeid=${placeIdClinica}`;
-
-            // --- O TEXTO PERFEITO, LEVE E DIRETO ---
-            const texto = `Olá, ${nomeFormatado}! 💙\nComo foi sua experiência na Clínica Blue hoje?\n\nSe desejar, será muito especial para nós que compartilhe sua avaliação no Google clicando aqui:\n${linkGoogleEstrelas}\n\nObrigada por nos permitir cuidar de você.`;
-
-            // 4. Cria a URL do WhatsApp Web e abre
-            const textoCodificado = encodeURIComponent(texto);
-            const urlWhatsApp = `https://wa.me/${telefoneFinal}?text=${textoCodificado}`;
-
-            window.open(urlWhatsApp, '_blank');
-        }
+            // Limpa o campo nome para a próxima
+            document.getElementById('nome').value = '';
+        </div>
     </script>
-</head>
-<body class="bg-slate-100 flex items-center justify-center h-screen font-sans">
-    
-    <div class="bg-white p-10 rounded-3xl shadow-lg w-full max-w-md border border-slate-100">
-        
-        <div class="text-center mb-10">
-            <h1 class="text-2xl font-bold text-blue-900 tracking-tighter">Clínica Blue</h1>
-            <p class="text-slate-500 text-sm mt-1">Gerador de avaliação direta (Google)</p>
-        </div>
-
-        <div class="space-y-6">
-            <div>
-                <label class="block mb-1 text-sm font-semibold text-slate-700">Nome da paciente</label>
-                <input type="text" id="nome" placeholder="Ex: Letícia" class="w-full border border-slate-300 rounded-xl p-4 outline-none focus:ring-2 focus:ring-blue-800 transition">
-            </div>
-
-            <div>
-                <label class="block mb-1 text-sm font-semibold text-slate-700">WhatsApp (com DDD)</label>
-                <input type="text" id="telefone" placeholder="Ex: 21987654321" class="w-full border border-slate-300 rounded-xl p-4 outline-none focus:ring-2 focus:ring-blue-800 transition">
-            </div>
-
-            <button onclick="gerarDisparo()" class="w-full bg-blue-700 text-white font-bold py-4 px-4 rounded-xl hover:bg-blue-800 transition duration-200 mt-6 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                Enviar mensagem oficial
-            </button>
-        </div>
-    </div>
-
 </body>
 </html>
