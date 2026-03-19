@@ -277,7 +277,7 @@
                 let idx = localStorage.getItem('blue_idx') || 0;
                 localStorage.setItem('blue_idx', (parseInt(idx) + 1) % 2);
                 
-                const msg = `Olá, ${primeiroNome}. Agradecemos sua presença hoje na Clínica Blue.\n\nComo buscamos a excelência contínua, sua avaliação é fundamental para nós e para futuros pacientes.\n\nPor gentileza, registre sua experiência através do link abaixo:\n\n👉 https://search.google.com/local/writereview?placeid=${ids[idx]}&review=5\n\nAtenciosamente,\nEquipe Clínica Blue.`;
+                const msg = `Olá, ${primeiroNome}. Agradecemos sua presença hoje na Clínica Blue.\n\nComo buscamos a excelência contínua, sua avaliação é fundamental para nós e para futuros pacientes.\n\nPor gentileza, registre sua experiência através do link abaixo:\n\n https://search.google.com/local/writereview?placeid=${ids[idx]}&review=5\n\nAtenciosamente,\nEquipe Clínica Blue.`;
                 window.open(`https://wa.me/55${telInput}?text=${encodeURIComponent(msg)}`, '_blank');
             }
 
